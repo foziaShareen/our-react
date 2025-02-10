@@ -3,6 +3,7 @@
 
 import React from 'react';
 import axios from 'axios';
+import Loading from './Loading';
 
 class App extends React.Component {
   constructor(props) {
@@ -14,8 +15,8 @@ class App extends React.Component {
   }
   getUsers(){
     this.setState({loading:true})
-    axios("https://randomuser.me/api/?results=10").then((response) =>
-     
+    axios("https://randomuser.me/api/?results=10")
+    .then((response)  =>
     this.setState({users: response.data.results
       ,loading:false})
     ); 
@@ -32,7 +33,7 @@ class App extends React.Component {
     return (
       <div>
         <h1>Users List📃</h1>
-        {this.state.loading ? <h1>Loading...</h1> : this.state.users.map((user) => <div key={user.email}><h2>{user.name.first} - {user.email}</h2><hr/></div>)}
+        {this.state.loading ? <Loading message="page is loading...⌛"/> : this.state.users.map((user) => <div key={user.email}><h2>{user.name.first} - {user.email}</h2><hr/></div>)}
       </div>
     );
   }
