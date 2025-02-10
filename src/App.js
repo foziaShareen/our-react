@@ -8,11 +8,19 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      users:[]
+      users:[],
+      loading:false
   }
   }
   getUsers(){
-    axios("https://randomuser.me/api/?results=10").then((response) =>this.setState({users: response.data.results})); 
+    this.setState({loading:true})
+    axios("https://randomuser.me/api/?results=10").then((response) =>
+     
+    this.setState({users: response.data.results
+      ,loading:false})
+    ); 
+    
+
 
 
   }
@@ -24,7 +32,7 @@ class App extends React.Component {
     return (
       <div>
         <h1>Users List📃</h1>
-        {this.state.users.map((user) =><div> <h2 key="user.name" >{user.name.first}-{user.email}<hr/></h2></div>)}
+        {this.state.loading ? <h1>Loading...</h1> : this.state.users.map((user) => <div key={user.email}><h2>{user.name.first} - {user.email}</h2><hr/></div>)}
       </div>
     );
   }
