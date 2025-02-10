@@ -11,16 +11,20 @@ class App extends React.Component {
       users:[]
   }
   }
-  componentWillMount() {
+  getUsers(){
     axios("https://randomuser.me/api/?results=10").then((response) =>this.setState({users: response.data.results})); 
-    
+
+
+  }
+  componentWillMount() {
+    this.getUsers()
   }
     
   render() {
     return (
       <div>
-        <h1>hello world</h1>
-        {this.state.users.map((user) => <h2 key="user.name" >I am-{user.name.first}</h2>)}
+        <h1>Users List📃</h1>
+        {this.state.users.map((user) =><div> <h2 key="user.name" >{user.name.first}-{user.email}<hr/></h2></div>)}
       </div>
     );
   }
