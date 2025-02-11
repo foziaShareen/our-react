@@ -1,17 +1,20 @@
 import React from 'react';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import Loading from './Loading';
 
 const App = () => {
   const [news, setNews] = useState([]);
   const [query, setQuery] = useState('react')
+  const [loading, setLoading] = useState(false)
   const [url,setUrl]=useState(`https://hn.algolia.com/api/v1/search?query=${query}`)
   const fetchNews = () => {
+    setLoading(true)
     fetch(url)
     .then(response => response.json())
     // .then(data => console.log(data))
 
-    .then(data => setNews(data.hits))
+    .then(data => (setNews(data.hits),setLoading(false)))
     .catch(err => console.log(err))
     
   
@@ -26,7 +29,9 @@ const App = () => {
     setUrl(`https://hn.algolia.com/api/v1/search?query=${query}`)
   }
   useEffect(() => {
+    setLoading(false)
     fetchNews()
+    
   }, [url])
 
 
@@ -34,6 +39,7 @@ const App = () => {
   return (
     <div>
       <h1>Users List📃</h1>
+     {loading ? <Loading message="page is loading...⌛" />:" "} 
       <input  value={query} onChange={hadleQuery}/>
       <button onClick={hadleSubmit}>Search</button>
       {news.map((news) => (
